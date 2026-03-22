@@ -126,7 +126,7 @@ function init() {
     generateNextItem();
     
     // 开始游戏循环
-    gameLoop();
+    startGameLoop();
 }
 
 // 设置画布大小
@@ -316,6 +316,7 @@ function resetGame() {
     updateScoreDisplay();
     generateNextItem();
     document.getElementById('gameOver').style.display = 'none';
+    startGameLoop();
 }
 
 // 更新分数显示
@@ -402,6 +403,13 @@ function gameLoop() {
     
     // 继续下一帧
     requestAnimationFrame(gameLoop);
+}
+
+// 启动游戏循环（使用 setInterval 确保在后台也能运行）
+let gameInterval;
+function startGameLoop() {
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(gameLoop, 1000 / 60); // 60fps
 }
 
 // 页面加载完成后初始化
