@@ -398,10 +398,14 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
-// 页面加载完成后设置事件监听
-window.onload = function() {
+// 页面加载完成后初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupInputEvents();
+        init();
+    });
+} else {
+    // DOM 已加载
     setupInputEvents();
-};
-
-// 启动游戏
-init();
+    init();
+}
