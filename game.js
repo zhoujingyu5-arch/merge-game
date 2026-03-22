@@ -125,9 +125,6 @@ function init() {
     updateScoreDisplay();
     generateNextItem();
     
-    // 鼠标/触摸事件
-    setupInputEvents();
-    
     // 开始游戏循环
     gameLoop();
 }
@@ -400,6 +397,11 @@ function gameLoop() {
     // 继续下一帧
     requestAnimationFrame(gameLoop);
 }
+
+// 页面加载完成后设置事件监听
+window.onload = function() {
+    setupInputEvents();
+};
 
 // 启动游戏
 init();
