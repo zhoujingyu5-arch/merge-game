@@ -140,6 +140,60 @@
             color: #4CAF50;
             margin: 20px 0;
         }
+        
+        .instructions {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            max-width: 400px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .instructions h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .fruit-chain {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        
+        .fruit-item {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+        }
+        
+        .fruit-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        
+        .arrow {
+            color: #999;
+            margin: 0 3px;
+        }
     </style>
 </head>
 <body>
@@ -169,6 +223,39 @@
             <h2>游戏结束!</h2>
             <div class="final-score" id="finalScore">0</div>
             <button class="btn-primary" onclick="resetGame()">再玩一次</button>
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <h3>📖 游戏说明</h3>
+        <ol>
+            <li><strong>移动鼠标</strong>控制掉落位置</li>
+            <li>点击 <strong>"掉落物品"</strong> 按钮生成水果</li>
+            <li><strong>相同水果碰撞</strong>会合成更高级水果</li>
+            <li>水果堆到<strong>红线</strong>位置游戏结束</li>
+            <li>看<strong>广告</strong>可获得高级物品或双倍分数</li>
+        </ol>
+        
+        <div class="fruit-chain">
+            <div class="fruit-item"><div class="fruit-dot" style="background:#9C27B0"></div>葡萄</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#E91E63"></div>樱桃</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#FF5722"></div>橘子</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#FFEB3B"></div>柠檬</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#8BC34A"></div>猕猴桃</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#4CAF50"></div>青苹果</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#F44336"></div>苹果</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#795548"></div>椰子</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#FF9800"></div>柚子</div>
+            <span class="arrow">→</span>
+            <div class="fruit-item"><div class="fruit-dot" style="background:#4CAF50"></div>🍉西瓜</div>
         </div>
     </div>
 
