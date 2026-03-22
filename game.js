@@ -10,8 +10,10 @@ const CONFIG = {
     GRAVITY: 0.5,
     BOUNCE: 0.3,
     FRICTION: 0.98,
-    GAME_OVER_HEIGHT: 80, // 超过此高度游戏结束
-    SPAWN_HEIGHT: 50
+    GAME_OVER_HEIGHT: 80,
+    SPAWN_HEIGHT: 50,
+    // 移动端适配
+    isMobile: window.innerWidth <= 600
 };
 
 // 物品等级配置
@@ -117,23 +119,80 @@ class Item {
 
 // 初始化游戏
 function init() {
+    // 移动端适配画布大小
+    setupCanvas();
+    
     updateScoreDisplay();
     generateNextItem();
     
     // 鼠标/触摸事件
-    canvas.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        gameState.mouseX = e.clientX - rect.left;
-    });
-    
-    canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        gameState.mouseX = e.touches[0].clientX - rect.left;
-    });
+    setupInputEvents();
     
     // 开始游戏循环
     gameLoop();
+}
+
+// 设置画布大小
+function setupCanvas() {
+    const maxWidth = Math.min(window.innerWidth - 20, 400);
+    const scale = maxWidth / CONFIG.CANVAS_WIDTH;
+    
+    if (scale < 1) {
+        canvas.style.width = maxWidth + 'px';
+        canvas.style.height = (CONFIG.CANVAS_HEIGHT * scale) + 'px';
+    }
+}
+
+// 设置输入事件
+function setupInputEvents() {
+    // 鼠标事件
+    canvas.addEventListener('mousemove', handleInputMove);
+    canvas.addEventListener('mousedown', handleInputStart);
+    
+    // 触摸事件
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+    
+    // 防止页面滚动
+    document.body.addEventListener('touchmove', function(e) {
+        if (e.target === canvas) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+}
+
+// 处理输入移动
+function handleInputMove(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CONFIG.CANVAS_WIDTH / rect.width;
+    gameState.mouseX = (e.clientX - rect.left) * scaleX;
+}
+
+// 处理输入开始（点击/触摸）
+function handleInputStart(e) {
+    if (CONFIG.isMobile) {
+        dropItem();
+    }
+}
+
+// 处理触摸开始
+function handleTouchStart(e) {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CONFIG.CANVAS_WIDTH / rect.width;
+    gameState.mouseX = (e.touches[0].clientX - rect.left) * scaleX;
+    
+    // 移动端触摸即掉落
+    dropItem();
+}
+
+// 处理触摸移动
+function handleTouchMove(e) {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = CONFIG.CANVAS_WIDTH / rect.width;
+    gameState.mouseX = (e.touches[0].clientX - rect.left) * scaleX;
 }
 
 // 生成下一个物品
