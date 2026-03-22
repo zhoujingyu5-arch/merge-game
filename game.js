@@ -195,6 +195,11 @@ function handleTouchMove(e) {
     gameState.mouseX = (e.touches[0].clientX - rect.left) * scaleX;
 }
 
+// 处理触摸结束
+function handleTouchEnd(e) {
+    e.preventDefault();
+}
+
 // 生成下一个物品
 function generateNextItem() {
     gameState.nextItemLevel = Math.floor(Math.random() * 3); // 0-2级随机
