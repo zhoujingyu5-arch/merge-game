@@ -351,7 +351,13 @@ function watchAdForScore() {
 }
 
 // 游戏主循环
+let loopCount = 0;
 function gameLoop() {
+    loopCount++;
+    if (loopCount % 60 === 0) {
+        console.log('Game loop running, frame:', loopCount);
+    }
+    
     // 清空画布
     ctx.clearRect(0, 0, CONFIG.CANVAS_WIDTH, CONFIG.CANVAS_HEIGHT);
     
