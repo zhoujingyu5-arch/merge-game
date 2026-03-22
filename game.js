@@ -37,7 +37,8 @@ let gameState = {
     highScore: parseInt(localStorage.getItem('mergeGameHighScore')) || 0,
     nextItemLevel: 0,
     isGameOver: false,
-    mouseX: CONFIG.CANVAS_WIDTH / 2
+    mouseX: CONFIG.CANVAS_WIDTH / 2,
+    lastDropTime: 0  // 防止连续掉落
 };
 
 // 获取画布
@@ -166,9 +167,10 @@ function handleInputMove(e) {
     gameState.mouseX = (e.clientX - rect.left) * scaleX;
 }
 
-// 处理输入开始（点击/触摸）
+// 处理输入开始（点击/触摸）- 仅用于桌面端鼠标点击
 function handleInputStart(e) {
-    if (CONFIG.isMobile) {
+    // 桌面端鼠标点击才掉落
+    if (e.type === 'mousedown' && !CONFIG.isMobile) {
         dropItem();
     }
 }
@@ -221,8 +223,15 @@ function drawPreview() {
 function dropItem() {
     if (gameState.isGameOver) return;
     
+    // 防止连续快速掉落（500ms冷却）
+    const now = Date.now();
+    if (now - gameState.lastDropTime < 500) return;
+    gameState.lastDropTime = now;
+    
     const x = Math.max(30, Math.min(CONFIG.CANVAS_WIDTH - 30, gameState.mouseX));
     const item = new Item(x, CONFIG.SPAWN_HEIGHT, gameState.nextItemLevel);
+    // 给初始向下速度，让水果更快落下
+    item.vy = 2;
     gameState.items.push(item);
     
     generateNextItem();
@@ -313,6 +322,7 @@ function resetGame() {
     gameState.items = [];
     gameState.score = 0;
     gameState.isGameOver = false;
+    gameState.lastDropTime = 0;
     updateScoreDisplay();
     generateNextItem();
     document.getElementById('gameOver').style.display = 'none';
